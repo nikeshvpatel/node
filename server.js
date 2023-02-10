@@ -3,7 +3,7 @@ const path = require('path');
 
 
 const {adminRoutes} = require('./routes/admin.routes');
-const shopRoutes = require('./routes/shop.routes');
+const {shopRoutes} = require('./routes/shop.routes');
 const pageNotFoundRoute = require("./routes/pageNotFound.routes");
 
 const app = express();
