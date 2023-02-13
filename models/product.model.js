@@ -6,8 +6,11 @@ const p = path.join(path.dirname(process.mainModule.filename), 'data', 'products
 
 class Product {
 
-    constructor(title) {
+    constructor({title, imageUrl, description, price}) {
         this.title = title;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.price = price;
     }
 
 
