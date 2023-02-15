@@ -2,4 +2,9 @@ function getCart(req, res) {
     res.render('shop/cart', {pageTitle: 'Your Cart', path: '/cart',})
 }
 
-module.exports = {getCart};
+function postCart(req, res) {
+    const prodId = req.body.productId;
+    res.redirect('/cart');
+}
+
+module.exports = {getCart, postCart};

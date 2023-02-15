@@ -15,6 +15,7 @@ class Product {
 
 
     save() {
+        this.id = Math.random().toString();
         fs.readFile(p, (err, data) => {
             let products = [];
             if (!err) {
@@ -26,6 +27,17 @@ class Product {
             });
         });
 
+    }
+
+    static findById(id) {
+        return new Promise(resolve => {
+            fs.readFile(p, (err, data) => {
+                if (err) {
+                    return resolve([]);
+                }
+                return resolve(JSON.parse(data).find(product => product.id === id));
+            })
+        })
     }
 
     static fetchAll() {
