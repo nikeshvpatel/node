@@ -45,6 +45,19 @@ class Product {
         })
     }
 
+    static deleteProductById(id) {
+        fs.readFile(p, (err, data) => {
+            let products = [];
+            if (!err) {
+                products = JSON.parse(data);
+            }
+            products = products.filter(prod => prod.id !== id);
+            fs.writeFile(p, JSON.stringify(products), err => {
+                console.log(err);
+            });
+        });
+    }
+
     static fetchAll() {
         return new Promise((resolve) => {
             fs.readFile(p, (err, data) => {
