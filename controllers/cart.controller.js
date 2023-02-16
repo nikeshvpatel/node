@@ -1,8 +1,13 @@
 const {Product} = require("../models/product.model");
 const Cart = require("../models/cart.model");
 
-function getCart(req, res) {
-    res.render('shop/cart', {pageTitle: 'Your Cart', path: '/cart',})
+async function getCart(req, res) {
+    const cartProducts = await Cart.getProducts();
+    const mainProducts = await Product.fetchAll();
+    let combinedData = mainProducts.map(product => {
+        return {...product, qty: cartProducts.products.find(findProduct => findProduct.id === product.id).qty}
+    })
+    res.render('shop/cart', {pageTitle: 'Your Cart', path: '/cart', products: combinedData})
 }
 
 async function postCart(req, res) {

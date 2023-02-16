@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require("path");
+const {json} = require("express");
 
 const p = path.join(path.dirname(process.mainModule.filename), 'data', 'cart.json')
 
@@ -22,6 +23,16 @@ class Cart {
                 console.log(err);
             })
         })
+    }
+
+    static getProducts() {
+        return new Promise(resolve => {
+            fs.readFile(p, (err, fileContent) => {
+                if (err) resolve(null);
+                resolve(JSON.parse(fileContent));
+            })
+        })
+
     }
 
     static deleteProduct(id, productPrice) {
