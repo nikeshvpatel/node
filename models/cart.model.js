@@ -23,6 +23,21 @@ class Cart {
             })
         })
     }
+
+    static deleteProduct(id, productPrice) {
+        fs.readFile(p, (err, fileContent) => {
+            if (err) return;
+            let cart = JSON.parse(fileContent);
+            cart.products = cart.products.filter(product => {
+                if (product.id !== id) {
+                    return product
+                } else {
+                    cart.totalPrice = +(cart.totalPrice - (product.qty * productPrice)).toFixed(2);
+                }
+            });
+            fs.writeFile(p, JSON.stringify(cart), err => console.log(err));
+        })
+    }
 }
 
 module.exports = Cart;
