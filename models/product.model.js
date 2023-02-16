@@ -6,7 +6,8 @@ const p = path.join(path.dirname(process.mainModule.filename), 'data', 'products
 
 class Product {
 
-    constructor({title, imageUrl, description, price}) {
+    constructor({id, title, imageUrl, description, price}) {
+        this.id = id;
         this.title = title;
         this.imageUrl = imageUrl;
         this.description = description;
@@ -15,13 +16,17 @@ class Product {
 
 
     save() {
-        this.id = Math.random().toString();
         fs.readFile(p, (err, data) => {
             let products = [];
             if (!err) {
                 products = JSON.parse(data);
             }
-            products.push(this);
+            if (this.id) { // updating existing product detail
+                products = products.map(prod => prod.id === this.id ? this : prod);
+            } else { // Add new Product
+                this.id = Math.random().toString();
+                products.push(this);
+            }
             fs.writeFile(p, JSON.stringify(products), err => {
                 console.log(err);
             });

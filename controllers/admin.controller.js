@@ -32,9 +32,15 @@ async function getEditProduct(req, res) {
 }
 
 async function postAddProduct(req, res) {
-    const product = new Product({...req.body});
+    const product = new Product({...req.body, id: null});
     await product.save();
     res.redirect('/');
 }
 
-module.exports = {getAddProduct, getProducts, getEditProduct, postAddProduct};
+function postEditProduct(req, res) {
+    const updatedProduct = new Product({...req.body});
+    updatedProduct.save();
+    res.redirect('/admin/products');
+}
+
+module.exports = {getAddProduct, getProducts, getEditProduct, postAddProduct, postEditProduct};
