@@ -1,9 +1,10 @@
 const {Product} = require("../models/product.model");
 
 function getAddProduct(req, res) {
-    return res.status(200).render('admin/add-products', {
+    return res.status(200).render('admin/edit-product', {
         pageTitle: 'Add Product',
-        path: '/admin/add-product'
+        path: '/admin/add-product',
+        editing: false
     });
 }
 
@@ -17,10 +18,23 @@ async function getProducts(req, res) {
         })
 }
 
+async function getEditProduct(req, res) {
+    const editMode = !!req.query.edit;
+    const prodId = req.params.productId;
+    const foundProduct = await Product.findById(prodId);
+    if (!editMode || !foundProduct) res.redirect('/');
+    return res.status(200).render('admin/edit-product', {
+        ...foundProduct,
+        pageTitle: 'Edit Product',
+        path: '/admin/edit-product',
+        editing: editMode
+    });
+}
+
 async function postAddProduct(req, res) {
     const product = new Product({...req.body});
     await product.save();
     res.redirect('/');
 }
 
-module.exports = {getAddProduct, getProducts, postAddProduct};
+module.exports = {getAddProduct, getProducts, getEditProduct, postAddProduct};
