@@ -1,4 +1,4 @@
-const {Product} = require("../models/product.model");
+const Product = require("../models/product.model");
 
 function getAddProduct(req, res) {
     return res.status(200).render('admin/edit-product', {
@@ -40,10 +40,8 @@ async function getEditProduct(req, res) {
 }
 
 async function postAddProduct(req, res) {
-    const product = new Product({...req.body, id: null});
     try {
-        await product.save();
-        res.redirect('/');
+        let result = await Product.create({...req.body})
     } catch (e) {
         console.log(`postAddProduct() -> ${e.message}`)
     }
