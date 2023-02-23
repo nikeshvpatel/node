@@ -1,1 +1,16 @@
-[{"id":"0.7201387999338063","title":"TCS","imageUrl":"https://img-c.udemycdn.com/organization/W_70/101080_30e9_3.png","description":"TCS is Good","price":"11.11"},{"id":"0.6609713152134582","title":"Google","imageUrl":"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png","description":"Google is Good","price":"10.99"}]
+[
+  {
+    "id": "0.7201387999338063",
+    "title": "TCS",
+    "imageUrl": "https://img-c.udemycdn.com/organization/W_70/101080_30e9_3.png",
+    "description": "TCS is Good",
+    "price": "11.11"
+  },
+  {
+    "id": "0.6609713152134582",
+    "title": "Google",
+    "imageUrl": "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+    "description": "Google is Good",
+    "price": "10.99"
+  }
+]

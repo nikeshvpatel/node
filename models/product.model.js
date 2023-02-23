@@ -14,8 +14,7 @@ class Product {
 
 
     save() {
-
-
+        return db.execute("insert into products (title, price, description, imageUrl) VALUES (?,?,?,?)", [this.title, this.price, this.description, this.imageUrl]);
     }
 
     static findById(id) {

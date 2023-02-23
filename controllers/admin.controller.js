@@ -37,14 +37,22 @@ async function getEditProduct(req, res) {
 
 async function postAddProduct(req, res) {
     const product = new Product({...req.body, id: null});
-    await product.save();
-    res.redirect('/');
+    try {
+        await product.save();
+        res.redirect('/');
+    } catch (e) {
+        console.log(`postAddProduct() -> ${e.message}`)
+    }
 }
 
-function postEditProduct(req, res) {
+async function postEditProduct(req, res) {
     const updatedProduct = new Product({...req.body});
-    updatedProduct.save();
-    res.redirect('/admin/products');
+    try {
+        await updatedProduct.save();
+        res.redirect('/admin/products');
+    } catch (e) {
+        console.log(`postEditProduct() -> ${e.message}`)
+    }
 }
 
 function postDeleteProduct(req, res) {
