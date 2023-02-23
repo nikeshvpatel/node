@@ -22,7 +22,7 @@ class Product {
     }
 
     static deleteProductById(id) {
-
+        return db.execute("delete from products where id=?", [id]);
     }
 
     static fetchAll() {

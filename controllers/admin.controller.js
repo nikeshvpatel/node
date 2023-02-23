@@ -61,8 +61,12 @@ async function postEditProduct(req, res) {
 
 function postDeleteProduct(req, res) {
     const productId = req.params.productId;
-    Product.deleteProductById(productId);
-    res.redirect('/admin/products');
+    try {
+        Product.deleteProductById(productId);
+        res.redirect('/admin/products');
+    } catch (e) {
+        console.log(`postDeleteProduct() -> ${e.message}`)
+    }
 }
 
 module.exports = {getAddProduct, getProducts, getEditProduct, postAddProduct, postEditProduct, postDeleteProduct};
