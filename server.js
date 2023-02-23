@@ -1,5 +1,5 @@
 const express = require('express');
-
+const sequelize = require('./util/database.utils');
 
 const adminRoutes = require('./routes/admin.routes');
 const shopRoutes = require('./routes/shop.routes');
@@ -27,7 +27,13 @@ app.use('/orders', ordersRoutes);
 app.use('/checkout', checkoutRoutes);
 app.use('/', pageNotFoundRoute);
 
+try {
+    sequelize.sync()
+    app.listen(PORT, () => {
+        console.log(`Server is listening on port: http://localhost:${PORT}`);
+    })
+} catch (e) {
+    console.log(e.message)
+}
 
-app.listen(PORT, () => {
-    console.log(`Server is listening on port: http://localhost:${PORT}`);
-})
+
