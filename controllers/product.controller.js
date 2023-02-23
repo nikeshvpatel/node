@@ -1,10 +1,11 @@
-const {Product} = require("../models/product.model");
+const Product = require("../models/product.model");
 
 async function getProduct(req, res) {
     const prodId = req.params.productId;
     try {
-        let [prodFetch] = await Product.findById(prodId);
-        res.render('shop/product-detail', {...prodFetch[0], pageTitle: prodFetch[0].title, path: '/products'})
+        let prodFetch = (await Product.findByPk(prodId)).dataValues;
+        // prodFetch = prodFetch.dataValues;
+        res.render('shop/product-detail', {...prodFetch, pageTitle: prodFetch.title, path: '/products'})
     } catch (e) {
         console.log(`getProduct() -> ${e.message}`)
     }
