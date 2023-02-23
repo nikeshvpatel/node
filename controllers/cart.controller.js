@@ -12,16 +12,24 @@ async function getCart(req, res) {
 
 async function postCart(req, res) {
     const prodId = req.body.productId;
-    const product = await Product.findById(prodId);
-    Cart.addProduct(prodId, product.price);
-    res.redirect('/cart');
+    try {
+        const [product] = await Product.findById(prodId);
+        Cart.addProduct(prodId, product[0].price);
+        res.redirect('/cart');
+    } catch (e) {
+        console.log(`postCart() -> ${e.message}`)
+    }
 }
 
 async function postCartDeleteItem(req, res) {
     const prodId = req.params.productId;
-    const {price} = await Product.findById(prodId);
-    Cart.deleteProduct(prodId, price);
-    res.redirect('/cart');
+    try {
+        const [product] = await Product.findById(prodId);
+        Cart.deleteProduct(prodId, product[0].price);
+        res.redirect('/cart');
+    } catch (e) {
+        console.log(`postCartDeleteItem() -> ${e.message}`)
+    }
 }
 
 module.exports = {getCart, postCart, postCartDeleteItem};

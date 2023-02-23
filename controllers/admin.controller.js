@@ -25,14 +25,18 @@ async function getProducts(req, res) {
 async function getEditProduct(req, res) {
     const editMode = !!req.query.edit;
     const prodId = req.params.productId;
-    const foundProduct = await Product.findById(prodId);
-    if (!editMode || !foundProduct) res.redirect('/');
-    return res.status(200).render('admin/edit-product', {
-        ...foundProduct,
-        pageTitle: 'Edit Product',
-        path: '/admin/edit-product',
-        editing: editMode
-    });
+    try {
+        const [foundProduct] = await Product.findById(prodId);
+        if (!editMode || !foundProduct) res.redirect('/');
+        return res.status(200).render('admin/edit-product', {
+            ...foundProduct[0],
+            pageTitle: 'Edit Product',
+            path: '/admin/edit-product',
+            editing: editMode
+        });
+    } catch (e) {
+        console.log(`getEditProduct() -> ${e.message}`)
+    }
 }
 
 async function postAddProduct(req, res) {

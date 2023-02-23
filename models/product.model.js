@@ -18,7 +18,7 @@ class Product {
     }
 
     static findById(id) {
-
+        return db.execute("select * from products where id=?", [id]);
     }
 
     static deleteProductById(id) {
