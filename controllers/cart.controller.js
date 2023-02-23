@@ -3,7 +3,7 @@ const Cart = require("../models/cart.model");
 
 async function getCart(req, res) {
     const cartProducts = await Cart.getProducts();
-    const mainProducts = await Product.fetchAll();
+    const [mainProducts] = await Product.fetchAll();
     let combinedData = cartProducts.products.map(product => {
         return {...product, ...mainProducts.find(findProduct => findProduct.id === product.id)}
     })

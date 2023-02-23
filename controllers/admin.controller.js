@@ -9,13 +9,17 @@ function getAddProduct(req, res) {
 }
 
 async function getProducts(req, res) {
-    let products = await Product.fetchAll();
-    res.status(200)
-        .render('admin/products', {
-            prods: products,
-            pageTitle: 'Admin Products',
-            path: '/admin/products',
-        })
+    try {
+        let [products] = await Product.fetchAll();
+        res.status(200)
+            .render('admin/products', {
+                prods: products,
+                pageTitle: 'Admin Products',
+                path: '/admin/products',
+            })
+    } catch (e) {
+        console.log(`getProducts() -> ${e.message}`);
+    }
 }
 
 async function getEditProduct(req, res) {

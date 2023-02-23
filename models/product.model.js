@@ -1,8 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const db = require("../util/database.utils");
 const Cart = require("./cart.model");
-
-const p = path.join(path.dirname(process.mainModule.filename), 'data', 'products.json')
 
 
 class Product {
@@ -17,60 +14,20 @@ class Product {
 
 
     save() {
-        fs.readFile(p, (err, data) => {
-            let products = [];
-            if (!err) {
-                products = JSON.parse(data);
-            }
-            if (this.id) { // updating existing product detail
-                products = products.map(prod => prod.id === this.id ? this : prod);
-            } else { // Add new Product
-                this.id = Math.random().toString();
-                products.push(this);
-            }
-            fs.writeFile(p, JSON.stringify(products), err => {
-                console.log(err);
-            });
-        });
+
 
     }
 
     static findById(id) {
-        return new Promise(resolve => {
-            fs.readFile(p, (err, data) => {
-                if (err) {
-                    return resolve([]);
-                }
-                return resolve(JSON.parse(data).find(product => product.id === id));
-            })
-        })
+
     }
 
     static deleteProductById(id) {
-        fs.readFile(p, (err, data) => {
-            let products = [];
-            if (!err) {
-                products = JSON.parse(data);
-            }
-            const {price} = products.find(prod => prod.id === id);
-            let updatedProducts = products.filter(prod => prod.id !== id);
-            fs.writeFile(p, JSON.stringify(updatedProducts), err => {
-                if (!err) {
-                    Cart.deleteProduct(id, price)
-                }
-            });
-        });
+
     }
 
     static fetchAll() {
-        return new Promise((resolve) => {
-            fs.readFile(p, (err, data) => {
-                if (err) {
-                    return resolve([]);
-                }
-                resolve(JSON.parse(data));
-            })
-        })
+        return db.execute("select * from products")
     }
 }
 
