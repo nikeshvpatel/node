@@ -10,7 +10,7 @@ function getAddProduct(req, res) {
 
 async function getProducts(req, res) {
     try {
-        let [products] = await Product.fetchAll();
+        let products = await Product.findAll();
         res.status(200)
             .render('admin/products', {
                 prods: products,
@@ -26,10 +26,10 @@ async function getEditProduct(req, res) {
     const editMode = !!req.query.edit;
     const prodId = req.params.productId;
     try {
-        const [foundProduct] = await Product.findById(prodId);
+        const foundProduct = (await Product.findByPk(prodId)).dataValues;
         if (!editMode || !foundProduct) res.redirect('/');
         return res.status(200).render('admin/edit-product', {
-            ...foundProduct[0],
+            ...foundProduct,
             pageTitle: 'Edit Product',
             path: '/admin/edit-product',
             editing: editMode
@@ -41,16 +41,15 @@ async function getEditProduct(req, res) {
 
 async function postAddProduct(req, res) {
     try {
-        let result = await Product.create({...req.body})
+        await Product.create({...req.body})
     } catch (e) {
         console.log(`postAddProduct() -> ${e.message}`)
     }
 }
 
 async function postEditProduct(req, res) {
-    const updatedProduct = new Product({...req.body});
     try {
-        await updatedProduct.save();
+        await Product.update({...req.body}, {where: {id: req.body.id}})
         res.redirect('/admin/products');
     } catch (e) {
         console.log(`postEditProduct() -> ${e.message}`)
