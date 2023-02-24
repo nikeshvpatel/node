@@ -42,6 +42,7 @@ async function getEditProduct(req, res) {
 async function postAddProduct(req, res) {
     try {
         await Product.create({...req.body})
+        res.redirect('/admin/products');
     } catch (e) {
         console.log(`postAddProduct() -> ${e.message}`)
     }
@@ -56,10 +57,10 @@ async function postEditProduct(req, res) {
     }
 }
 
-function postDeleteProduct(req, res) {
+async function postDeleteProduct(req, res) {
     const productId = req.params.productId;
     try {
-        Product.deleteProductById(productId);
+        await Product.destroy({where: {id: productId}});
         res.redirect('/admin/products');
     } catch (e) {
         console.log(`postDeleteProduct() -> ${e.message}`)
